@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confess For You 💌</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0f0f1a, #1d1033, #3b0a57);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      position: relative;
+    }
+
+    .bg-blur {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(255, 0, 153, 0.25);
+      filter: blur(140px);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .bg-blur.two {
+      width: 400px;
+      height: 400px;
+      background: rgba(111, 0, 255, 0.3);
+      right: -100px;
+      bottom: -100px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%,100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-25px);
+      }
+    }
+
+    .card {
+      width: 90%;
+      max-width: 700px;
+      padding: 50px;
+      border-radius: 35px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 40px rgba(255,255,255,0.08);
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      animation: fadeUp 1.3s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      font-size: 14px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #ff7ad9, #c084fc, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .typing {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.88);
+      min-height: 140px;
+      margin-bottom: 35px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      padding: 16px 32px;
+      border-radius: 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.35s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .yes {
+      background: linear-gradient(135deg, #ff4ecd, #7b5cff);
+      color: white;
+      box-shadow: 0 10px 30px rgba(123,92,255,0.4);
+    }
+
+    .yes:hover {
+      transform: translateY(-5px) scale(1.04);
+      box-shadow: 0 15px 40px rgba(123,92,255,0.6);
+    }
+
+    .no {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .no:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.18);
+    }
+
+    .heart {
+      position: absolute;
+      color: rgba(255,255,255,0.8);
+      font-size: 20px;
+      animation: fall linear infinite;
+      top: -50px;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.4s;
+      z-index: 99;
+    }
+
+    .popup.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .popup-box {
+      width: 90%;
+      max-width: 500px;
+      background: #161623;
+      border-radius: 30px;
+      padding: 40px;
+      text-align: center;
+      animation: zoom 0.5s ease;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    @keyframes zoom {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .popup-box h2 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #ff7ad9;
+    }
+
+    .popup-box p {
+      line-height: 1.8;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: white;
+      border-radius: 50%;
+      animation: sparkle 2s linear infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes sparkle {
+      0% {
+        transform: scale(0) translateY(0);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.5) translateY(-80px);
+        opacity: 0;
+      }
+    }
+
+    .album {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .album img {
+      width: 120px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 2px solid rgba(255,255,255,0.15);
+      transition: 0.4s;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .album img:hover {
+      transform: scale(1.07) rotate(2deg);
+    }
+
+    @media(max-width: 768px) {
+      .card {
+        padding: 35px 25px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .typing {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bgMusic" loop>
+    <source src="somebody-pleasure.mp3" type="audio/mp3">
+  </audio>
+
+  <div class="bg-blur"></div>
+  <div class="bg-blur two"></div>
+
+  <div class="card">
+    <div class="tag">💌 confidential feelings unlocked</div>
+
+    <h1>eh bentar deh...</h1>
+
+    <div class="typing" id="typing"></div>
+
+    <div class="btn-group">
+      <button class="yes" onclick="openPopup()">iya aku juga 😳</button>
+      <button class="no" onclick="moveButton(this)">ga dulu 😭</button>
+    </div>
+  </div>
+
+  <div class="popup" id="popup">
+    <div class="popup-box">
+      <h2>AAAA FINALLY 😭💖</h2>
+      <p>
+        fix abis ini kita jadi duo paling lucu sedunia sih.<br><br>
+        makasih udah stay, udah hadir, dan bikin hari aku ga flat lagi ✨<br><br>
+        🎵 backsound: Somebody's Pleasure - Aziz Hedra
+      </p>
+
+      <div class="album">
+        <img src="https://media.discordapp.net/attachments/1497198155270197259/1505583736249651300/IMG-20260517-WA0090.jpg?ex=6a13b95f&is=6a1267df&hm=33c875aa5916fe5ea8137d3f77652a1dc60e4540bdad4f852db9dd90cf1ceb8d&=&format=webp&width=481&height=856">
+        <img src="https://media.discordapp.net/attachments/1497198155270197259/1505583736773808358/IMG-20260517-WA0082.jpg?ex=6a13b95f&is=6a1267df&hm=041a6368e993d917f5e8ad1ffcb9747241f89e3e839957bbe02ad9c95c738aaa&=&format=webp&width=541&height=856">
+        <img src="https://media.discordapp.net/attachments/1497198155270197259/1505583737797214359/IMG-20260517-WA0089.jpg?ex=6a13b95f&is=6a1267df&hm=fed2d521ac8e6596803a084e1cf4c800653d7f177a2ec786dce913c00c85f346&=&format=webp&width=481&height=856">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const text = `sebenernya aku udah lama mau bilang ini...\n\naku tuh nyaman banget sama kamu 😭✨\n\nchat kamu tuh kayak notif gajian, bikin seneng sendiri.\n\njadi... kamu mau ga jadi orang favorit aku terus? 💖`;
+
+    let i = 0;
+    const speed = 45;
+    const typing = document.getElementById('typing');
+
+    function typeWriter() {
+      if (i < text.length) {
+        if(text.charAt(i) === '\n') {
+          typing.innerHTML += '<br>';
+        } else {
+          typing.innerHTML += text.charAt(i);
+        }
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+
+    typeWriter();
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '💖';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 7000);
+    }
+
+    setInterval(createHeart, 300);
+
+    function moveButton(btn) {
+      btn.style.position = 'absolute';
+      btn.style.left = Math.random() * 70 + '%';
+      btn.style.top = Math.random() * 70 + '%';
+    }
+
+    function openPopup() {
+      document.getElementById('bgMusic').play();
+      document.getElementById('popup').classList.add('active');
+
+      for(let i = 0; i < 40; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.style.left = Math.random() * window.innerWidth + 'px';
+        sparkle.style.top = Math.random() * window.innerHeight + 'px';
+        sparkle.style.animationDuration = (Math.random() * 2 + 1) + 's';
+        document.body.appendChild(sparkle);
+
+        setTimeout(() => {
+          sparkle.remove();
+        }, 2000);
+      }
+    }
+  </script>
+
+</body>
+</html>
